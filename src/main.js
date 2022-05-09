@@ -29,9 +29,9 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
-const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
+const Giffer = require(`${basePath}/modules/Giffer.js`);
 
-let hashlipsGiffer = null;
+let giffer = null;
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -139,7 +139,7 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    compiler: "NFT Art Engine",
   };
   if (network == NETWORK.sol) {
     tempMetadata = {
@@ -372,7 +372,7 @@ const startCreating = async () => {
           debugLogs ? console.log("Clearing canvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
           if (gif.export) {
-            hashlipsGiffer = new HashlipsGiffer(
+            giffer = new Giffer(
               canvas,
               ctx,
               `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
@@ -380,7 +380,7 @@ const startCreating = async () => {
               gif.quality,
               gif.delay
             );
-            hashlipsGiffer.start();
+            giffer.start();
           }
           if (background.generate) {
             drawBackground();
@@ -392,11 +392,11 @@ const startCreating = async () => {
               layerConfigurations[layerConfigIndex].layersOrder.length
             );
             if (gif.export) {
-              hashlipsGiffer.add();
+              giffer.add();
             }
           });
           if (gif.export) {
-            hashlipsGiffer.stop();
+            giffer.stop();
           }
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
